@@ -1,5 +1,10 @@
 package xyz.chaobei.api;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class CommonResult<T> {
     /**
      * 状态码

@@ -20,10 +20,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 
 /**
@@ -225,6 +222,7 @@ public class GenerateService {
             writer.close();
         }
     }
-
-
+    public List<TableEntity> tableList() {
+        return mapper.tableList();
+    }
 }

@@ -27,6 +27,7 @@
         <velocity.version>1.7</velocity.version>
         <fastjson.version>1.2.62</fastjson.version>
         <guava.version>21.0</guava.version>
+        <pagehelpser.version>1.2.13</pagehelpser.version>
     </properties>
 
     <dependencies>
@@ -55,6 +56,13 @@
                 <artifactId>velocity</artifactId>
                 <groupId>org.apache.velocity</groupId>
                 <version>${velocity.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>1.2.12</version>
             </dependency>
 
             <dependency>

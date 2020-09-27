@@ -36,5 +36,14 @@
         ORDER BY
             ordinal_position
     </select>
-
+    <select id="tableList" resultType="xyz.chaobei.generate.entity.TableEntity">
+        SELECT
+            table_name `name`,
+            ENGINE `engine`,
+            create_time createTime
+        FROM
+            information_schema.TABLES
+        WHERE
+            table_schema = ( SELECT DATABASE () )
+    </select>
 </mapper>
