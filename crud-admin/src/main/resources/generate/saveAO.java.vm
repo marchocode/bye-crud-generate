@@ -1,0 +1,25 @@
+package ${saveAOPackage};
+
+import lombok.Data;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.lang.Integer;
+
+/**
+ * ${config.desc} AO业务对象
+ * @author ${config.author}
+ * @Date ${Date}
+ */
+@Data
+public class ${saveAO} {
+
+#foreach ($column in $data.columns)
+
+    /**
+     * $column.columnComment
+     */
+private $column.javaType $column.columnName;
+#end
+
+}
