@@ -52,13 +52,17 @@ public class GenerateService {
     public void generateTemplate(@NonNull CustomConfig customConfig) throws Exception {
 
         log.info("reload config={}", JSON.toJSONString(config));
-
+        /**
+         * 查询表基本信息
+         */
         GenerateEntity table = mapper.selectTable(customConfig.getTable());
         log.info("select table entity={}", JSON.toJSONString(table));
 
         if (null == table) {
             throw new Exception("未查询到相关信息");
         }
+        /** 使用自定义字段信息 */
+        table.setColumns(customConfig.getColumns());
 
         /** 设置对象类名，转换驼峰命名 OrgUser*/
         String className = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table.getName());

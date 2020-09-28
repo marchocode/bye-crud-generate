@@ -15,7 +15,7 @@
             <h3 th:text="${name}"></h3>
         </el-header>
         <el-main>
-            <el-table :data="tableData" style="width: 100%">
+            <el-table v-loading="loading" :data="tableData" style="width: 100%">
 
                 <el-table-column prop="column" label="名称"></el-table-column>
 
@@ -42,9 +42,10 @@
                         <el-switch v-model="scope.row.insert" active-color="#13ce66" inactive-color="#eee"></el-switch>
 
                         <el-select v-if="scope.row.insert" size="mini" v-model="scope.row.insertType" placeholder="请选择">
-                            <el-option :value="1" :label="'@NotNull'"></el-option>
-                            <el-option :value="2" :label="'@NotBlank'"></el-option>
-                            <el-option :value="3" :label="'@NotEmpty'"></el-option>
+                            <el-option :value="null" :label="'不做校验'"></el-option>
+                            <el-option :value="'@NotNull'" :label="'@NotNull'"></el-option>
+                            <el-option :value="'@NotBlank'" :label="'@NotBlank'"></el-option>
+                            <el-option :value="'@NotEmpty'" :label="'@NotEmpty'"></el-option>
                         </el-select>
 
                     </template>
@@ -53,25 +54,26 @@
         </el-main>
 
         <el-footer>
-            <el-form :inline="true" :model="generateObj" class="demo-form-inline">
-                <el-form-item label="生成路径">
-                    <el-input v-model="generateObj.path" placeholder="E:\test"></el-input>
+            <el-form :inline="true" :model="generateObj" ref="defaultForm" class="demo-form-inline" :rules="rules">
+
+                <el-form-item label="生成路径" prop="filePath">
+                    <el-input v-model="generateObj.filePath" placeholder="E:\test"></el-input>
                 </el-form-item>
 
-                <el-form-item label="自定义包">
-                    <el-input v-model="generateObj.path" placeholder="org.springframework"></el-input>
+                <el-form-item label="自定义包" prop="packages">
+                    <el-input v-model="generateObj.packages" placeholder="org.springframework"></el-input>
                 </el-form-item>
 
-                <el-form-item label="作者信息">
+                <el-form-item label="作者信息" prop="author">
                     <el-input v-model="generateObj.author" placeholder="admin"></el-input>
                 </el-form-item>
 
-                <el-form-item label="描述信息">
-                    <el-input v-model="generateObj.author" placeholder="例如：系统管理"></el-input>
+                <el-form-item label="描述信息" prop="desc">
+                    <el-input v-model="generateObj.desc" placeholder="例如：系统管理"></el-input>
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit">一键生成</el-button>
+                    <el-button type="primary" @click="onSubmit('defaultForm')">一键生成</el-button>
                 </el-form-item>
             </el-form>
         </el-footer>
@@ -87,33 +89,82 @@
 <script src="/static/jquery-3.5.1.min.js"></script>
 
 <script>
-    let name = $("#name").val();
+    let table = $("#name").val();
 
     let app = new Vue({
         el: '#app',
         data: {
             tableData: [],
             insert: true,
-            generateObj:{},
+            loading: true,
+            generateObj: {
+                table: table,
+                author: 'mrc',
+                desc: '用户管理',
+                packages: 'xyz.chaobei',
+                filePath: 'E:\\test',
+                columns: null,
+            },
+            rules: {
+                author: [
+                    {required: true, message: '请填写作者信息', trigger: 'blur'}
+                ],
+                desc: [
+                    {required: true, message: '请填写描述信息', trigger: 'blur'}
+                ],
+                packages: [
+                    {required: true, message: '请填写自定义包信息', trigger: 'blur'}
+                ],
+                filePath: [
+                    {required: true, message: '请填写文件生成路径', trigger: 'blur'}
+                ],
+            }
         },
         created: function () {
             let this_ = this;
-            axios.get('/api/detail/' + name, {params: this.pageObj})
+            axios.get('/api/detail/' + table, {params: this.pageObj})
                 .then(function (response) {
                     let result = response.data.data;
+                    this_.loading = false;
                     result.forEach(item => {
                         item.insert = false;
-                        item.insertType = 1;
+                        item.insertType = null;
                         item.query = false;
                     })
-                    console.log(result)
                     this_.tableData = result;
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         },
-        methods: {}
+        methods: {
+            onSubmit: function (ref) {
+                let this_ = this;
+                this.$refs[ref].validate((valid) => {
+                    if (valid) {
+                        this.loading = false;
+                        this.generateObj.columns = this.tableData;
+
+                        axios.post('/api/generate', this.generateObj)
+                            .then(function (response) {
+                                this_.loading = false;
+                                this_.$message({
+                                    message: response.data.message,
+                                    type: 'success'
+                                });
+                            })
+                            .catch(function (error) {
+                                this_.loading = false;
+                                console.log(error);
+                                this_.$message.error("系统异常，请查看异常信息");
+                            });
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            }
+        }
     })
 </script>
 </html>

@@ -6,7 +6,6 @@
         <result column="name" property="name"/>
         <result column="engine" property="engine"/>
         <result column="createTime" property="createTime"/>
-        <collection property="columns" select="selectColumns" column="name"></collection>
     </resultMap>
 
     <select id="selectTable" resultMap="selectTable">

@@ -2,13 +2,16 @@ package xyz.chaobei.generate.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xyz.chaobei.api.CommonResult;
+import xyz.chaobei.generate.cofig.CustomConfig;
 import xyz.chaobei.generate.entity.ColumnEntity;
 import xyz.chaobei.generate.entity.CustomPage;
 import xyz.chaobei.generate.service.GenerateService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -21,6 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api")
+@Slf4j
 public class ApiGenerateController {
 
     @Autowired
@@ -43,11 +47,11 @@ public class ApiGenerateController {
     }
 
     /**
+     * @return xyz.chaobei.api.CommonResult
      * @Author MRC
      * @Description 查找指定表的字段信息
      * @Date 13:37 2020/9/28
      * @Param [name]
-     * @return xyz.chaobei.api.CommonResult
      **/
     @GetMapping("detail/{name}")
     public CommonResult tableCols(@PathVariable("name") String name) {
@@ -55,5 +59,24 @@ public class ApiGenerateController {
         return CommonResult.success(result);
     }
 
+    /**
+     * 功能描述: 生成模板接口
+     *
+     * @Param: [config]
+     * @Return: xyz.chaobei.api.CommonResult
+     * @Author: MRC
+     * @Date: 2020/9/28 22:58
+     */
+    @PostMapping("generate")
+    public CommonResult generate(@RequestBody @Valid CustomConfig config) {
+        try {
+            generateService.generateTemplate(config);
+            return CommonResult.success(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+            return CommonResult.failed(e.getMessage());
+        }
+    }
 
 }
