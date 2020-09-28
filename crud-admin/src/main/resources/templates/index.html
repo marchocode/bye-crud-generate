@@ -17,21 +17,32 @@
                     :data="tableData"
                     style="width: 100%">
                 <el-table-column
-                        prop="date"
-                        label="日期"
-                        width="180">
-                </el-table-column>
-                <el-table-column
                         prop="name"
-                        label="姓名"
+                        label="名称"
+                        width="500">
+                </el-table-column>
+                <el-table-column
+                        prop="engine"
+                        label="引擎"
                         width="180">
                 </el-table-column>
                 <el-table-column
-                        prop="address"
-                        label="地址">
+                        prop="createTime"
+                        label="创建时间">
+                </el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-link type="primary" :href="'/detail?name='+ scope.row.name" target="_blank">详情</el-link>
+                    </template>
                 </el-table-column>
             </el-table>
         </el-main>
+
+        <el-footer>
+            <el-pagination @current-change="currentChange" :page-size="pageObj.size" background
+                           layout="prev, pager, next" :total="total"></el-pagination>
+        </el-footer>
+
     </el-container>
 </div>
 
@@ -39,30 +50,42 @@
 
 <script src="/static/vue.js"></script>
 <script src="/static/index.js"></script>
+<script src="/static/axios.min.js"></script>
 
 <script>
     let app = new Vue({
         el: '#app',
         data: {
             message: 'Hello Vue!',
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }]
+            pageObj: {
+                current: 1,
+                size: 8,
+            },
+            total: 0,
+            tableData: []
         },
+        created: function () {
+            this.getPage();
+        },
+        methods: {
+            getPage: function () {
+                let this_ = this;
+                axios.get('/api/list', {params: this.pageObj})
+                    .then(function (response) {
+                        let result = response.data;
+                        this_.tableData = result.data.data;
+
+                        this_.total = result.data.total;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            currentChange: function (current) {
+                this.pageObj.current = current;
+                this.getPage();
+            }
+        }
     })
 </script>
 </html>

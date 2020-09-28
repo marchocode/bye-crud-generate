@@ -1,9 +1,11 @@
+server:
+  port: 8080
 spring:
   application:
     name: bye-crud-generate
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.13.111:3306/ci_main_v3?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.99.100:3306/mall-pro?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
 bycrud:
@@ -45,5 +47,3 @@ mybatis:
   mapper-locations: classpath:/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
-server:
-  port: 8080

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import xyz.chaobei.generate.cofig.CustomConfig;
 import xyz.chaobei.generate.cofig.GenerateConfig;
 import xyz.chaobei.generate.entity.ColumnEntity;
+import xyz.chaobei.generate.entity.GenerateEntity;
 import xyz.chaobei.generate.entity.TableEntity;
 import xyz.chaobei.generate.mapper.GenerateMapper;
 
@@ -52,7 +53,7 @@ public class GenerateService {
 
         log.info("reload config={}", JSON.toJSONString(config));
 
-        TableEntity table = mapper.selectTable(customConfig.getTable());
+        GenerateEntity table = mapper.selectTable(customConfig.getTable());
         log.info("select table entity={}", JSON.toJSONString(table));
 
         if (null == table) {
@@ -224,5 +225,9 @@ public class GenerateService {
     }
     public List<TableEntity> tableList() {
         return mapper.tableList();
+    }
+
+    public List<ColumnEntity> tableCols(String name) {
+        return mapper.selectColumns(name);
     }
 }

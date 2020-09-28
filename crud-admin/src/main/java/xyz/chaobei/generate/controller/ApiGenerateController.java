@@ -1,12 +1,12 @@
 package xyz.chaobei.generate.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.chaobei.api.CommonResult;
-import xyz.chaobei.generate.entity.TableEntity;
+import xyz.chaobei.generate.entity.ColumnEntity;
+import xyz.chaobei.generate.entity.CustomPage;
 import xyz.chaobei.generate.service.GenerateService;
 
 import java.util.List;
@@ -34,11 +34,25 @@ public class ApiGenerateController {
      * @Param []
      **/
     @GetMapping("list")
-    public CommonResult tableList(@RequestParam(value = "current", defaultValue = "1") Integer current, @RequestParam("size") Integer size) {
+    public CommonResult tableList(@RequestParam(value = "current", defaultValue = "1") Integer current, @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
-        Page
-        List<TableEntity> list = generateService.tableList();
-        return CommonResult.success(list);
+        Page page = PageHelper.startPage(current, size);
+        generateService.tableList();
+
+        return CommonResult.success(new CustomPage(page));
+    }
+
+    /**
+     * @Author MRC
+     * @Description 查找指定表的字段信息
+     * @Date 13:37 2020/9/28
+     * @Param [name]
+     * @return xyz.chaobei.api.CommonResult
+     **/
+    @GetMapping("detail/{name}")
+    public CommonResult tableCols(@PathVariable("name") String name) {
+        List<ColumnEntity> result = generateService.tableCols(name);
+        return CommonResult.success(result);
     }
 
 

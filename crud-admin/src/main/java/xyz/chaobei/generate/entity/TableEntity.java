@@ -1,31 +1,23 @@
 package xyz.chaobei.generate.entity;
 
-import lombok.Data;
-
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * Copyright (C), 2015-2019
- * FileName: TableColumn
+ * Copyright (C), 2015-2020
+ * FileName: TableEntity
  * Author:   MRC
- * Date:     2019/11/5 11:24
- * Description: 表对象
+ * Date:     2020/9/28 13:32
+ * Description:
  * History:
  */
-@Data
+@Getter
+@Setter
 public class TableEntity {
     /**
      * 表名称 org_user
      */
     private String name;
-    /**
-     * 表名称驼峰命名 OrgUser
-     */
-    private String className;
-    /**
-     * 请求命名 小驼峰 orgUser
-     */
-    private String requestName;
     /**
      * 表引擎
      */
@@ -34,24 +26,4 @@ public class TableEntity {
      * 表创建时间
      */
     private String createTime;
-    /**
-     * 主键数据库字段
-     */
-    private String primary;
-    /**
-     * 主键类型 Integer
-     */
-    private String primaryType;
-    /**
-     * 主键名称 id
-     */
-    private String primaryName;
-    /**
-     * 大驼峰命名ID
-     */
-    private String primaryNameT;
-    /**
-     * 字段集合
-     */
-    private List<ColumnEntity> columns;
 }

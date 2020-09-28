@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>bye-crud-generate</title>
+    <link rel="stylesheet" href="/static/index.css">
+</head>
+<body>
+
+<input type="hidden" id="name" th:value="${name}">
+
+<div id="app">
+    <el-container>
+        <el-header>
+            <h3 th:text="${name}"></h3>
+        </el-header>
+        <el-main>
+            <el-table
+                    :data="tableData"
+                    style="width: 100%">
+                <el-table-column
+                        prop="column"
+                        label="名称"
+                        width="300">
+                </el-table-column>
+
+                <el-table-column prop="columnKey" label="主键" width="50"></el-table-column>
+
+                <el-table-column
+                        prop="dataType"
+                        label="类型"
+                        width="180">
+                </el-table-column>
+
+                <el-table-column prop="isNullable" label="允许为空" width="100"></el-table-column>
+
+                <el-table-column prop="columnComment" label="备注"></el-table-column>
+
+                <el-table-column label="PageAO" width="150">
+                    <template slot-scope="scope">
+                        <el-switch v-model="scope.row.query" active-color="#13ce66" inactive-color="#eee"></el-switch>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="Ins/UpdAO">
+                    <template slot-scope="scope">
+                        <el-switch v-model="scope.row.insert" active-color="#13ce66" inactive-color="#eee"></el-switch>
+
+                        <el-select v-if="scope.row.insert" size="mini" v-model="scope.row.insertType" placeholder="请选择">
+                            <el-option :value="1" :label="'@NotNull'"></el-option>
+                            <el-option :value="2" :label="'@NotBlank'"></el-option>
+                            <el-option :value="3" :label="'@NotEmpty'"></el-option>
+                        </el-select>
+
+                    </template>
+                </el-table-column>
+
+
+            </el-table>
+        </el-main>
+
+        <el-footer>
+
+        </el-footer>
+
+    </el-container>
+</div>
+
+</body>
+
+<script src="/static/vue.js"></script>
+<script src="/static/index.js"></script>
+<script src="/static/axios.min.js"></script>
+<script src="/static/jquery-3.5.1.min.js"></script>
+
+<script>
+    let name = $("#name").val();
+
+    let app = new Vue({
+        el: '#app',
+        data: {
+            tableData: [],
+            insert: true,
+        },
+        created: function () {
+            let this_ = this;
+            axios.get('/api/detail/' + name, {params: this.pageObj})
+                .then(function (response) {
+                    let result = response.data.data;
+                    result.forEach(item => {
+                        item.insert = false;
+                        item.insertType = 1;
+                        item.query = false;
+                    })
+                    console.log(result)
+                    this_.tableData = result;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+        methods: {}
+    })
+</script>
+</html>

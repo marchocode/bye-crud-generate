@@ -1,8 +1,12 @@
 package xyz.chaobei.generate.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Map;
 
 /**
  * Copyright (C), 2015-2020
@@ -21,5 +25,10 @@ public class GenerateController {
         return "index";
     }
 
+    @GetMapping("/detail")
+    public String toDesc(String name, Map<String, Object> map) {
+        map.put("name",name);
+        return "detail";
+    }
 
 }
