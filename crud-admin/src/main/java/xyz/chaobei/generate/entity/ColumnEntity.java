@@ -38,7 +38,7 @@ public class ColumnEntity {
     private boolean insert;
 
     //当前字段是否pageAO 生成字段
-    private boolean page;
+    private boolean query;
 
     //insert/update 校验规则 一般是注解方式
     private String insertType;

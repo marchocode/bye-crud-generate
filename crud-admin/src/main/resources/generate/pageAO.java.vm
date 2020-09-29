@@ -18,11 +18,13 @@ import java.lang.Integer;
 public class ${pageAO} extends BaseModel {
 
 #foreach ($column in $data.columns)
+    #if($column.query)
 
     /**
      * $column.columnComment
      */
-private $column.javaType $column.columnName;
+    private $column.javaType $column.columnName;
+    #end
 #end
 
 }
