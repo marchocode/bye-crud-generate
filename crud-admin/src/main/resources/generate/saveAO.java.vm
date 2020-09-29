@@ -1,17 +1,21 @@
 package ${saveAOPackage};
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.lang.Integer;
+import javax.validation.constraints.*;
 
 /**
  * ${config.desc} AO业务对象
  * @author ${config.author}
  * @Date ${Date}
  */
-@Data
+@Getter
+@Setter
 public class ${saveAO} {
 
 #foreach ($column in $data.columns)
