@@ -1,0 +1,30 @@
+package ${pageAOPackage};
+
+import xyz.chaobei.mall.common.domain.BaseModel;
+
+import lombok.Getter;
+import lombok.Setter;
+import java.io.Serializable;
+import java.util.Date;
+import java.lang.Integer;
+
+/**
+ * ${config.desc} AO分页对象
+ * @author ${config.author}
+ * @Date ${Date}
+ */
+@Getter
+@Setter
+public class ${pageAO} extends BaseModel {
+
+#foreach ($column in $data.columns)
+    #if($column.query)
+
+    /**
+     * $column.columnComment
+     */
+    private $column.javaType $column.columnName;
+    #end
+#end
+
+}
