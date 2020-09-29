@@ -5,14 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>xyz.chaobei</groupId>
-    <artifactId>by-crud-generate</artifactId>
+    <artifactId>bye-crud-generate</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-
-    <modules>
-        <module>crud-admin</module>
-        <module>crud-common</module>
-    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -22,8 +17,6 @@
     </parent>
 
     <properties>
-        <common.version>1.0-SNAPSHOT</common.version>
-
         <velocity.version>1.7</velocity.version>
         <fastjson.version>1.2.62</fastjson.version>
         <guava.version>21.0</guava.version>
@@ -32,6 +25,32 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -46,43 +65,28 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+
+        <dependency>
+            <artifactId>velocity</artifactId>
+            <groupId>org.apache.velocity</groupId>
+            <version>${velocity.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${mybatis.pagehelper.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-
-            <dependency>
-                <artifactId>velocity</artifactId>
-                <groupId>org.apache.velocity</groupId>
-                <version>${velocity.version}</version>
-            </dependency>
-
-            <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${mybatis.pagehelper.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>xyz.chaobei</groupId>
-                <artifactId>crud-common</artifactId>
-                <version>${common.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
 
 </project>
